@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <schema id="org.gnome.shell.extensions.adwita-square" path="/org/gnome/shell/extensions/adwita-square/">
+    <key name="enable-classic-style" type="b">
+      <default>true</default>
+      <summary>Enable classic style</summary>
+      <description>Enforces square buttons, corner integration, and sidebar tinting.</description>
+    </key>
+    <key name="theme-variant" type="s">
+      <default>'light'</default>
+      <summary>Theme variant</summary>
+      <description>Color variant: 'light' or 'dark'.</description>
+    </key>
+    <key name="accent-color" type="s">
+      <default>'blue'</default>
+      <summary>Accent color</summary>
+      <description>Selected accent color: blue, teal, green, yellow, orange, red, pink, purple, slate.</description>
+    </key>
+    <key name="accent-color-automatic" type="b">
+      <default>false</default>
+      <summary>Automatic accent color</summary>
+      <description>Automatically pick accent color from current wallpaper.</description>
+    </key>
+    <key name="opacity" type="i">
+      <default>0</default>
+      <summary>Sidebar opacity</summary>
+      <description>Opacity level of sidebar in percent (0 - 100, where 0 is opaque and 100 is fully transparent).</description>
+    </key>
+    <key name="accent-strength" type="i">
+      <default>15</default>
+      <summary>Accent color strength</summary>
+      <description>Intensity of the sidebar tinting with accent color in percent (0 - 100).</description>
+    </key>
+    <key name="blur" type="i">
+      <default>0</default>
+      <summary>Background blur (Beta)</summary>
+      <description>Window background blur radius in pixels (0 - 50) [beta].</description>
+    </key>
+    <key name="corner-radius" type="i">
+      <default>3</default>
+      <summary>Corner radius</summary>
+      <description>Corner rounding for windows and buttons in pixels (0 - 20).</description>
+    </key>
+    <key name="border-width" type="i">
+      <default>1</default>
+      <summary>Border width</summary>
+      <description>Border thickness of dock and interface frames in pixels (0 - 5).</description>
+    </key>
+    <key name="control-buttons" type="b">
+      <default>true</default>
+      <summary>Window control buttons [Experimental]</summary>
+      <description>Enables square window control buttons (minimize, maximize, close) [experimental].</description>
+    </key>
+    <key name="button-size" type="i">
+      <default>24</default>
+      <summary>Window buttons size</summary>
+      <description>Size of square window control buttons in pixels (20 - 48).</description>
+    </key>
+    <key name="dynamic-panel-maximized" type="b">
+      <default>true</default>
+      <summary>Dynamic panel on maximized window</summary>
+      <description>Adapts the top bar background color to solid black or white when a window is maximized.</description>
+    </key>
+    <key name="force-icon-shape" type="b">
+      <default>true</default>
+      <summary>Force icon shape</summary>
+      <description>Enforces uniform square icons with accent borders and theme-adaptive background (Adaptive style).</description>
+    </key>
+    <key name="icon-shape-scale" type="i">
+      <default>68</default>
+      <summary>Icon inner scale</summary>
+      <description>Scale percentage of the icon inside the square container (50 - 90%).</description>
+    </key>
+    <key name="icon-shape-size" type="i">
+      <default>52</default>
+      <summary>Icon container size</summary>
+      <description>Size of square icon container in pixels (40 - 96).</description>
+    </key>
+    <key name="icon-border-width" type="i">
+      <default>1</default>
+      <summary>Icon border width</summary>
+      <description>Border width of the square icon container in pixels (0 - 5).</description>
+    </key>
+    <key name="icon-squircle-radius" type="i">
+      <default>24</default>
+      <summary>Icon squircle corner radius</summary>
+      <description>Corner radius for generated squircle icons in pixels (4 - 36).</description>
+    </key>
+    <key name="icon-palette-mode" type="s">
+      <default>'accent'</default>
+      <summary>Icon generator palette mode</summary>
+      <description>Palette mode for icon generator: 'accent' (tinted accent), 'colored' (original colors in squircle), or 'adaptive'.</description>
+    </key>
+    <key name="icon-auto-regen" type="b">
+      <default>true</default>
+      <summary>Auto-regenerate icons on accent color change</summary>
+      <description>Automatically update generated icon theme in the background when system accent or wallpaper changes.</description>
+    </key>
+    <key name="dock-opacity" type="i">
+      <default>30</default>
+      <summary>Dock opacity</summary>
+      <description>Opacity level of dock/dash in percent (0 - 100, where 0 is opaque and 100 is fully transparent).</description>
+    </key>
+    <key name="dock-blur" type="i">
+      <default>10</default>
+      <summary>Dock blur</summary>
+      <description>Dock background blur radius in pixels (0 - 50).</description>
+    </key>
+    <key name="dock-corner-radius" type="i">
+      <default>3</default>
+      <summary>Dock corner radius</summary>
+      <description>Corner rounding for dock/dash in pixels (0 - 35).</description>
+    </key>
+    <key name="icon-opacity" type="i">
+      <default>0</default>
+      <summary>Icon container opacity</summary>
+      <description>Opacity level of square icon container in percent (0 - 100, where 0 is opaque and 100 is fully transparent).</description>
+    </key>
+    <key name="icon-blur" type="i">
+      <default>0</default>
+      <summary>Icon container blur (Beta)</summary>
+      <description>Square icon container background blur radius in pixels (0 - 50) [beta].</description>
+    </key>
+    <key name="firefox-theme" type="b">
+      <default>false</default>
+      <summary>Firefox integration</summary>
+      <description>Automatically deploys square tabs, address bar, and accent color in Mozilla Firefox (userChrome.css).</description>
+    </key>
+    <key name="chromium-theme" type="b">
+      <default>false</default>
+      <summary>Chrome &amp; Chromium integration</summary>
+      <description>Enforces system title bar, square frames, and GTK theme in Chrome and Chromium profiles.</description>
+    </key>
+    <key name="wallpaper-folder" type="s">
+      <default>''</default>
+      <summary>Wallpaper directory</summary>
+      <description>Path to folder containing wallpapers to load.</description>
+    </key>
+    <key name="wallpaper-interval" type="i">
+      <default>0</default>
+      <summary>Wallpaper change interval</summary>
+      <description>Interval in minutes to automatically change wallpaper (0 = off, 1, 5, 15, 30, 60).</description>
+    </key>
+    <key name="wallpaper-change-on-login" type="b">
+      <default>false</default>
+      <summary>Change wallpaper on login</summary>
+      <description>Automatically pick a new wallpaper when logging in.</description>
+    </key>
+    <key name="wallpaper-current-path" type="s">
+      <default>''</default>
+      <summary>Current wallpaper path</summary>
+      <description>Path to the currently active wallpaper.</description>
+    </key>
+    <key name="wallpaper-random" type="b">
+      <default>true</default>
+      <summary>Random wallpaper order</summary>
+      <description>Whether to randomize wallpaper selection.</description>
+    </key>
+    <key name="wallpaper-transition" type="b">
+      <default>true</default>
+      <summary>Smooth wallpaper transition</summary>
+      <description>Enable smooth fade-out and fade-in (dimming and brightening) transition when wallpaper changes.</description>
+    </key>
+    <key name="prefs-window-width" type="i">
+      <default>980</default>
+      <summary>Preferences window width</summary>
+      <description>Saved width of preferences window.</description>
+    </key>
+    <key name="prefs-window-height" type="i">
+      <default>680</default>
+      <summary>Preferences window height</summary>
+      <description>Saved height of preferences window.</description>
+    </key>
+  </schema>
+</schemalist>

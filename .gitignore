@@ -1,0 +1,15 @@
+# Backups and historical snapshots
+backups/
+*.bak
+
+# Temporary debug scripts
+test_*.js
+
+# Compiled GSettings schemas (generated locally during build/install)
+schemas/gschemas.compiled
+
+# OS and editor files
+.DS_Store
+*~
+*.swp
+*.orig

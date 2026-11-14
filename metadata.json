@@ -1,0 +1,23 @@
+{
+  "name": "adwita-square",
+  "description": "Square GTK theme based on Adwaita",
+  "uuid": "adwita-square@g-mobile.eu",
+  "gettext-domain": "adwita-square",
+  "shell-version": [
+    "45",
+    "46",
+    "47",
+    "48",
+    "49",
+    "50",
+    "51"
+  ],
+  "session-modes": [
+    "user",
+    "unlock-dialog"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.adwita-square",
+  "url": "https://g-mobile.eu",
+  "version": 1,
+  "version-name": "1.0.0"
+}
