@@ -2671,10 +2671,18 @@ export default class AdwitaSquarePreferences extends ExtensionPreferences {
             }));
         });
 
+        const secondaryBtnsBox = new Gtk.Box({
+            orientation: Gtk.Orientation.HORIZONTAL,
+            spacing: 8,
+            homogeneous: true,
+            halign: Gtk.Align.FILL,
+        });
+
         const restoreBtn = new Gtk.Button({
-            label: '🔄 Restore Original Adwaita Style',
+            label: '🔄 Restore Adwaita',
             css_classes: ['destructive-action'],
             halign: Gtk.Align.FILL,
+            tooltip_text: 'Remove custom CSS and restore default GNOME Adwaita style',
         });
         restoreBtn.set_size_request(-1, 38);
 
@@ -2687,8 +2695,26 @@ export default class AdwitaSquarePreferences extends ExtensionPreferences {
             }));
         });
 
+        const supportBtn = new Gtk.Button({
+            label: '☕ Buy me a coffee',
+            halign: Gtk.Align.FILL,
+            tooltip_text: 'Support development on buycoffee.to/e.mikolaj',
+        });
+        supportBtn.set_size_request(-1, 38);
+
+        supportBtn.connect('clicked', () => {
+            try {
+                Gio.AppInfo.launch_default_for_uri('https://buycoffee.to/e.mikolaj', null);
+            } catch (e) {
+                console.warn('Could not open buycoffee link:', e);
+            }
+        });
+
+        secondaryBtnsBox.append(restoreBtn);
+        secondaryBtnsBox.append(supportBtn);
+
         actionBox.append(saveBtn);
-        actionBox.append(restoreBtn);
+        actionBox.append(secondaryBtnsBox);
         actionBox.append(reloginInfoLabel);
         leftColumnBox.append(actionBox);
 

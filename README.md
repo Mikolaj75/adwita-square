@@ -73,5 +73,5 @@ This project is licensed under the GNU Lesser General Public License version 2.1
 If you find this project useful and would like to support its development:
 
 <a href="https://buycoffee.to/e.mikolaj" target="_blank">
-  <img src="https://buycoffee.to/img/brand/bc-logo.svg" alt="Buy me a coffee on buycoffee.to" height="45" />
+  <img src="https://buycoffee.to/btn/buycoffeeto-btn-primary.svg" alt="Buy me a coffee on buycoffee.to" height="42" />
 </a>
