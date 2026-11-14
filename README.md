@@ -65,3 +65,13 @@ Open the extension settings via:
 ## 📄 License
 
 This project is licensed under the GNU Lesser General Public License version 2.1 or later (**LGPL-2.1-or-later**). See the [LICENSE](LICENSE) file for details.
+
+---
+
+## ☕ Support / Wsparcie
+
+If you find this project useful and would like to support its development:
+
+<a href="https://buycoffee.to/e.mikolaj" target="_blank">
+  <img src="https://buycoffee.to/img/brand/bc-logo.svg" alt="Buy me a coffee on buycoffee.to" height="45" />
+</a>
