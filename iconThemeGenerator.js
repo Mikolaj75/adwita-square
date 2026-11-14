@@ -14,7 +14,6 @@
 
 import GLib from 'gi://GLib';
 import Gio from 'gi://Gio';
-import Gdk from 'gi://Gdk?version=4.0';
 import GdkPixbuf from 'gi://GdkPixbuf';
 import cairo from 'cairo';
 import { ACCENT_PRESETS, hexToRgb } from './themeGenerator.js';
@@ -807,6 +806,25 @@ export function wrapAppSvg(srcSvgPath, options = {}) {
 }
 
 /**
+ * Paints a GdkPixbuf cleanly onto a Cairo Context using pure Cairo ImageSurface.
+ * Avoids any dependency on Gdk.cairo_set_source_pixbuf in the GNOME Shell process.
+ */
+function paintPixbufToCairo(cr, pixbuf, x, y) {
+    if (!cr || !pixbuf) return;
+    const tmpPath = GLib.build_filenamev([GLib.get_tmp_dir(), `_adwita_pb_${GLib.random_int()}.png`]);
+    try {
+        pixbuf.savev(tmpPath, 'png', [], []);
+        const surf = cairo.ImageSurface.createFromPNG(tmpPath);
+        cr.setSourceSurface(surf, x, y);
+        cr.paint();
+    } catch (e) {
+        console.warn('Failed to paint pixbuf onto Cairo context:', e);
+    } finally {
+        try { GLib.unlink(tmpPath); } catch (_) {}
+    }
+}
+
+/**
  * Creates and renders a true high-fidelity squircle icon for raster PNG applications using Cairo.
  * Preserves 100% alpha transparency and antialiased edges without harsh pixelation.
  */
@@ -879,8 +897,7 @@ export function renderSquircleIcon(srcImagePath, options = {}) {
     if (!scaledSrc) return surface;
 
     if (paletteMode === 'colored') {
-        Gdk.cairo_set_source_pixbuf(cr, scaledSrc, glyphOffset, glyphOffset);
-        cr.paint();
+        paintPixbufToCairo(cr, scaledSrc, glyphOffset, glyphOffset);
         return surface;
     }
 
@@ -950,8 +967,7 @@ export function renderSquircleIcon(srcImagePath, options = {}) {
             h,
             w * 4
         );
-        Gdk.cairo_set_source_pixbuf(cr, glyphPb, glyphOffset, glyphOffset);
-        cr.paint();
+        paintPixbufToCairo(cr, glyphPb, glyphOffset, glyphOffset);
     } catch (_) {}
 
     return surface;
@@ -962,6 +978,9 @@ export function renderSquircleIcon(srcImagePath, options = {}) {
  * Reflects exact squircle geometry, inner scale, palette mode, and accent colors.
  */
 export function generatePreviewIconPaintable(app, options = {}) {
+    const Gdk = options.Gdk || null;
+    if (!Gdk) return null;
+
     const {
         cornerRadius = 24,
         borderWidth = 1,

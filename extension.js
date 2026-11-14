@@ -1875,6 +1875,14 @@ export default class AdwitaSquareExtension extends Extension {
         } catch (_) {}
     }
 
+    /**
+     * Disable extension and cleanup all state.
+     * Note on session-modes: This extension supports 'user' and 'unlock-dialog'
+     * so that the cohesive square panel, lock screen blur, and accent styling
+     * remain consistent across user lock and unlock transitions.
+     * In disable(), all managers, custom stylesheets, and shell alterations are
+     * fully torn down and reverted to standard GNOME defaults.
+     */
     disable() {
         console.log(`[${this.uuid}] Disabling adwita-square extension...`);
 

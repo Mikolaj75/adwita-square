@@ -3169,6 +3169,7 @@ export default class AdwitaSquarePreferences extends ExtensionPreferences {
                     targetSize: currentIconShapeSize,
                     forceIconShape: currentForceIconShape,
                     isDark: currentVariant === 'dark',
+                    Gdk,
                 });
 
                 if (paintable) {
