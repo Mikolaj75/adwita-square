@@ -2,7 +2,7 @@
 
 Square GTK theme and GNOME Shell extension based on Adwaita.
 
-![Adwita Square](https://img.shields.io/badge/GNOME-45%20--%2051-blue)
+![Adwita Square](https://img.shields.io/badge/GNOME-45%20--%2052-blue)
 ![License](https://img.shields.io/badge/License-LGPL--2.1-green)
 
 **Adwita Square** transforms GNOME Shell and GTK applications into a clean, modern, square aesthetic while preserving native Adwaita look and feel.
@@ -23,7 +23,7 @@ Square GTK theme and GNOME Shell extension based on Adwaita.
 
 ## 💻 Compatibility
 
-- **GNOME Shell:** 45, 46, 47, 48, 49, 50, 51
+- **GNOME Shell:** 45, 46, 47, 48, 49, 50, 51, 52
 - **Toolkits:** GTK 4, GTK 3, Libadwaita
 
 ---

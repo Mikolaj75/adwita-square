@@ -48,8 +48,8 @@ app.connect('activate', () => {
         uuid: 'adwita-square@g-mobile.eu',
         'gettext-domain': 'adwita-square',
         'settings-schema': 'org.gnome.shell.extensions.adwita-square',
-        version: 1,
-        'version-name': '1.0.0',
+        version: 3,
+        'version-name': '1.0.2',
         dir: Gio.File.new_for_path(currentDir),
         path: currentDir,
     };
