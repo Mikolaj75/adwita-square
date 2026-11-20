@@ -7,11 +7,7 @@
     "45",
     "46",
     "47",
-    "48",
-    "49",
-    "50",
-    "51",
-    "52"
+    "48"
   ],
   "session-modes": [
     "user",
@@ -20,5 +16,5 @@
   "settings-schema": "org.gnome.shell.extensions.adwita-square",
   "url": "https://github.com/Mikolaj75/adwita-square",
   "version": 3,
-  "version-name": "1.0.2"
+  "version-name": "1.0.3"
 }

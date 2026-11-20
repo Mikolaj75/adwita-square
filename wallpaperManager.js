@@ -124,6 +124,7 @@ export function getThumbnailForFile(filePath, isVid = false) {
         return thumbPath;
     }
 
+    // I generate the video thumbnail asynchronously without blocking the GNOME Shell thread
     try {
         const cmd = [
             'ffmpeg', '-y',
@@ -135,29 +136,13 @@ export function getThumbnailForFile(filePath, isVid = false) {
             '-q:v', '3',
             thumbPath
         ];
-        const [ok, , , exitStatus] = GLib.spawn_sync(null, cmd, null, GLib.SpawnFlags.SEARCH_PATH, null);
-        if (ok && exitStatus === 0 && GLib.file_test(thumbPath, GLib.FileTest.EXISTS)) {
-            return thumbPath;
-        }
-
-        // I provide a fallback frame extraction at 0s for videos shorter than 1s
-        const fallbackCmd = [
-            'ffmpeg', '-y',
-            '-ss', '00:00:00',
-            '-i', filePath,
-            '-frames:v', '1',
-            '-update', '1',
-            '-vf', 'scale=240:-1:flags=lanczos',
-            '-q:v', '3',
-            thumbPath
-        ];
-        const [fOk, , , fExit] = GLib.spawn_sync(null, fallbackCmd, null, GLib.SpawnFlags.SEARCH_PATH, null);
-        if (fOk && fExit === 0 && GLib.file_test(thumbPath, GLib.FileTest.EXISTS)) {
-            return thumbPath;
-        }
-    } catch (e) {
-        console.warn('ffmpeg thumbnail generation error:', e);
-    }
+        const proc = new Gio.Subprocess({
+            argv: cmd,
+            flags: Gio.SubprocessFlags.NONE,
+        });
+        proc.init(null);
+        proc.wait_async(null, null);
+    } catch (_) {}
 
     return null;
 }

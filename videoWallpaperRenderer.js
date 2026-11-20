@@ -115,9 +115,15 @@ app.connect('command-line', (appInstance, commandLine) => {
 // SECTION: Application Execution
 // I run the application and process command line video path arguments.
 // ============================================================================
-// I run with command-line arguments
-const args = [import.meta.url, ...ARGV];
-if (ARGV.length > 0) {
-    currentVideoPath = ARGV[0];
+export const VIDEO_WALLPAPER_APP_ID = applicationId;
+
+export function runVideoWallpaperRenderer(argv = []) {
+    currentVideoPath = argv[0] || '';
+    const args = [import.meta.url, ...argv];
+    return app.run(args);
 }
-app.run(args);
+
+// I run when executed directly as a standalone script
+if (typeof ARGV !== 'undefined' && Array.isArray(ARGV) && ARGV.length > 0) {
+    runVideoWallpaperRenderer(ARGV);
+}

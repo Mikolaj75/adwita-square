@@ -253,9 +253,9 @@ export function applyFirefoxTheme(options = {}) {
             let existingContent = '';
 
             if (cssFile.query_exists(null)) {
-                const [success, contents] = cssFile.load_contents(null);
-                if (success) {
-                    existingContent = new TextDecoder('utf-8').decode(contents);
+                const [bytes] = cssFile.load_bytes(null);
+                if (bytes) {
+                    existingContent = new TextDecoder('utf-8').decode(bytes.toArray());
                 }
             }
 
@@ -278,9 +278,9 @@ export function applyFirefoxTheme(options = {}) {
             const userJsFile = Gio.File.new_for_path(userJsPath);
             let userJsContent = '';
             if (userJsFile.query_exists(null)) {
-                const [success, contents] = userJsFile.load_contents(null);
-                if (success) {
-                    userJsContent = new TextDecoder('utf-8').decode(contents);
+                const [bytes] = userJsFile.load_bytes(null);
+                if (bytes) {
+                    userJsContent = new TextDecoder('utf-8').decode(bytes.toArray());
                 }
             }
 
@@ -322,10 +322,10 @@ export function removeFirefoxTheme() {
             const cssFile = Gio.File.new_for_path(userChromeFile);
             if (!cssFile.query_exists(null)) continue;
 
-            const [success, contents] = cssFile.load_contents(null);
-            if (!success) continue;
+            const [bytes] = cssFile.load_bytes(null);
+            if (!bytes) continue;
 
-            let content = new TextDecoder('utf-8').decode(contents);
+            let content = new TextDecoder('utf-8').decode(bytes.toArray());
             while (content.includes(USER_CHROME_MARKER_START) && content.includes(USER_CHROME_MARKER_END)) {
                 const start = content.indexOf(USER_CHROME_MARKER_START);
                 const end = content.indexOf(USER_CHROME_MARKER_END);
@@ -428,10 +428,10 @@ export function applyChromiumTheme(enable = true) {
     for (const prefPath of prefFiles) {
         try {
             const file = Gio.File.new_for_path(prefPath);
-            const [success, contents] = file.load_contents(null);
-            if (!success) continue;
+            const [bytes] = file.load_bytes(null);
+            if (!bytes) continue;
 
-            const text = new TextDecoder('utf-8').decode(contents);
+            const text = new TextDecoder('utf-8').decode(bytes.toArray());
             const data = JSON.parse(text);
 
             if (!data.browser) data.browser = {};

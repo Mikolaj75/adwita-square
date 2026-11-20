@@ -499,6 +499,16 @@ export function sampleColors(imagePath, paletteMode, accentHex) {
     };
 }
 
+function readBytesFromPath(filePath) {
+    try {
+        const file = Gio.File.new_for_path(filePath);
+        const [bytes] = file.load_bytes(null);
+        return bytes ? bytes.toArray() : null;
+    } catch (_) {
+        return null;
+    }
+}
+
 /**
  * Wraps a Labile 2-color SVG icon into our custom squircle vector geometry.
  */
@@ -513,14 +523,8 @@ export function wrapLabileSvg(srcSvgPath, options = {}) {
         innerScale = 0.68,
     } = options;
 
-    let contentBytes;
-    try {
-        const [ok, bytes] = GLib.file_get_contents(srcSvgPath);
-        if (!ok || !bytes) return null;
-        contentBytes = bytes;
-    } catch (_) {
-        return null;
-    }
+    const contentBytes = readBytesFromPath(srcSvgPath);
+    if (!contentBytes) return null;
 
     const decoder = new TextDecoder('utf-8');
     let svgStr = decoder.decode(contentBytes);
@@ -570,14 +574,8 @@ export function wrapSymbolicSvg(srcSvgPath, options = {}) {
         opacity = 100,
     } = options;
 
-    let contentBytes;
-    try {
-        const [ok, bytes] = GLib.file_get_contents(srcSvgPath);
-        if (!ok || !bytes) return null;
-        contentBytes = bytes;
-    } catch (_) {
-        return null;
-    }
+    const contentBytes = readBytesFromPath(srcSvgPath);
+    if (!contentBytes) return null;
 
     const decoder = new TextDecoder('utf-8');
     let svgStr = decoder.decode(contentBytes);
@@ -676,14 +674,8 @@ export function wrapAppSvg(srcSvgPath, options = {}) {
         colors = null,
     } = options;
 
-    let contentBytes;
-    try {
-        const [ok, bytes] = GLib.file_get_contents(srcSvgPath);
-        if (!ok || !bytes) return null;
-        contentBytes = bytes;
-    } catch (_) {
-        return null;
-    }
+    const contentBytes = readBytesFromPath(srcSvgPath);
+    if (!contentBytes) return null;
 
     const decoder = new TextDecoder('utf-8');
     let svgStr = decoder.decode(contentBytes);
@@ -1045,8 +1037,8 @@ export function generatePreviewIconPaintable(app, options = {}) {
         });
     } else if (normalIcon && !normalIcon.endsWith('.svg')) {
         try {
-            const [ok, bytes] = GLib.file_get_contents(normalIcon);
-            if (ok && bytes) {
+            const bytes = readBytesFromPath(normalIcon);
+            if (bytes) {
                 const b64 = GLib.base64_encode(bytes);
                 const pad = 4;
                 const sqSize = 128 - pad * 2;
@@ -1220,8 +1212,8 @@ Type=Fixed
                     const desktopBasename = GLib.path_get_basename(app.desktopPath);
                     const localDesktopPath = GLib.build_filenamev([localAppsDir, desktopBasename]);
 
-                    const [ok, content] = GLib.file_get_contents(app.desktopPath);
-                    if (ok && content) {
+                    const content = readBytesFromPath(app.desktopPath);
+                    if (content) {
                         const decoder = new TextDecoder('utf-8');
                         let text = decoder.decode(content);
                         text = text.replace(/^Icon=.*$/m, `Icon=${app.baseName}`);

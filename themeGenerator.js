@@ -129,9 +129,10 @@ export function getWallpaperPath(isDark = false) {
         // I inspect if it's a GNOME dynamic XML slideshow wallpaper
         if (path.endsWith('.xml')) {
             try {
-                const [ok, bytes] = GLib.file_get_contents(path);
-                if (ok) {
-                    const xmlStr = new TextDecoder().decode(bytes);
+                const xmlFile = Gio.File.new_for_path(path);
+                const [bytes] = xmlFile.load_bytes(null);
+                if (bytes) {
+                    const xmlStr = new TextDecoder().decode(bytes.toArray());
                     const match = xmlStr.match(/<filename>(.*?)<\/filename>/) || xmlStr.match(/<file>(.*?)<\/file>/);
                     if (match && match[1]) {
                         const subPath = match[1].trim();
@@ -4232,8 +4233,9 @@ export function saveGtk4Css(generatedCss, darkCss = null) {
         let originalContent = '';
 
         if (cssFile.query_exists(null)) {
-            const [success, contents] = cssFile.load_contents(null);
-            if (success) {
+            const [bytes] = cssFile.load_bytes(null);
+            if (bytes) {
+                const contents = bytes.toArray();
                 originalContent = new TextDecoder('utf-8').decode(contents);
                 const backupFile = Gio.File.new_for_path(item.backup);
                 if (!backupFile.query_exists(null)) {
@@ -4298,12 +4300,12 @@ export function removeAdwitaSquareCss() {
             continue;
         }
 
-        const [success, contents] = cssFile.load_contents(null);
-        if (!success) {
+        const [bytes] = cssFile.load_bytes(null);
+        if (!bytes) {
             continue;
         }
 
-        let content = new TextDecoder('utf-8').decode(contents);
+        let content = new TextDecoder('utf-8').decode(bytes.toArray());
 
         // I remove legacy Zukitwo markers if present
         while (content.includes(LEGACY_START_MARKER) && content.includes(LEGACY_END_MARKER)) {

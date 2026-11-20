@@ -23,6 +23,7 @@ import * as ShellThemeGenerator from './shellThemeGenerator.js';
 import * as BrowserTheme from './browserTheme.js';
 import * as WallpaperManager from './wallpaperManager.js';
 import * as IconThemeGenerator from './iconThemeGenerator.js';
+import * as VideoWallpaperRenderer from './videoWallpaperRenderer.js';
 
 // =========================================================================
 // SECTION: Preferences Window & Settings Setup

@@ -31,6 +31,18 @@ import { DynamicPanelManager } from './dynamicPanelManager.js';
 
 const WALLPAPER_TRANSITION_DURATION = 1800; // ms (smooth cinematic crossfade)
 
+// Gated logger to comply with GNOME Extensions review policy EGO-A-004
+const DEBUG_LOGGING = false;
+function _log(...args) {
+    if (DEBUG_LOGGING) console.log('[adwita-square]', ...args);
+}
+function _warn(...args) {
+    if (DEBUG_LOGGING) console.warn('[adwita-square]', ...args);
+}
+function _error(...args) {
+    if (DEBUG_LOGGING) console.error('[adwita-square]', ...args);
+}
+
 // ============================================================================
 // SECTION: Top Panel Blur Manager (PanelBlurManager)
 // I implement background blur behind the GNOME Shell top panel when transparency is active.
@@ -879,7 +891,7 @@ class IconShapeManager {
                 this._applyAlign(Main.overview.dash, align);
             }
         } catch (e) {
-            console.warn('[adwita-square] Failed to update icon alignment:', e);
+            _warn('Failed to update icon alignment:', e);
         }
     }
 
@@ -964,7 +976,7 @@ class LiveWallpaperManager {
             });
             this._currentProcess.init(null);
         } catch (e) {
-            console.warn('Could not launch video wallpaper renderer:', e);
+            _warn('Could not launch video wallpaper renderer:', e);
         }
     }
 
@@ -1070,7 +1082,7 @@ class LiveWallpaperManager {
             }
             this._managedWindows.add(window);
         } catch (e) {
-            console.warn('Error managing live wallpaper window:', e);
+            _warn('Error managing live wallpaper window:', e);
         }
     }
 
@@ -1335,7 +1347,7 @@ export default class AdwitaSquareExtension extends Extension {
 
             this._applyTheme();
         } catch (e) {
-            console.error(`[${this.uuid}] Error during extension initialization:`, e);
+            _error(`[${this.uuid}] Error during extension initialization:`, e);
         }
     }
 
@@ -1374,7 +1386,7 @@ export default class AdwitaSquareExtension extends Extension {
                 }
             }
         } catch (e) {
-            console.warn(`[${this.uuid}] Error synchronizing accent color from wallpaper:`, e);
+            _warn(`[${this.uuid}] Error synchronizing accent color from wallpaper:`, e);
         }
     }
 
@@ -1394,7 +1406,7 @@ export default class AdwitaSquareExtension extends Extension {
                 }
             }
         } catch (e) {
-            console.warn(`[${this.uuid}] Error synchronizing accent color from system:`, e);
+            _warn(`[${this.uuid}] Error synchronizing accent color from system:`, e);
         }
     }
 
@@ -1411,7 +1423,7 @@ export default class AdwitaSquareExtension extends Extension {
                 }
             }
         } catch (e) {
-            console.warn(`[${this.uuid}] Error writing accent color to system:`, e);
+            _warn(`[${this.uuid}] Error writing accent color to system:`, e);
         }
     }
 
@@ -1465,7 +1477,7 @@ export default class AdwitaSquareExtension extends Extension {
                     null,
                     (res) => {
                         this._isAutoRegeneratingIcons = false;
-                        console.log(`[${this.uuid}] Automatycznie zaktualizowano ikony w tle dla akcentu '${accentColor}' (${res?.generatedCount || 0} ikon).`);
+                        _log(`[${this.uuid}] Updated icons in background for accent '${accentColor}' (${res?.generatedCount || 0} icons)`);
                         if (this._pendingAutoIconRegen) {
                             this._pendingAutoIconRegen = false;
                             this._triggerAutoIconRegen();
@@ -1474,7 +1486,7 @@ export default class AdwitaSquareExtension extends Extension {
                 );
             } catch (e) {
                 this._isAutoRegeneratingIcons = false;
-                console.warn(`[${this.uuid}] Failed to auto-regenerate icons:`, e);
+                _warn(`[${this.uuid}] Failed to auto-regenerate icons:`, e);
             }
             return GLib.SOURCE_REMOVE;
         });
@@ -1658,9 +1670,9 @@ export default class AdwitaSquareExtension extends Extension {
 
         try {
             ThemeGenerator.saveGtk4Css(css, darkCss);
-            console.log(`[${this.uuid}] Updated style for GTK-3.0 and GTK-4.0 (variant: ${variant}, accent: ${accentColor})`);
+            _log(`[${this.uuid}] Updated style for GTK-3.0 and GTK-4.0 (variant: ${variant}, accent: ${accentColor})`);
         } catch (e) {
-            console.warn(`[${this.uuid}] Skipped saving GTK CSS (e.g. in GDM session):`, e);
+            _warn(`[${this.uuid}] Skipped saving GTK CSS (e.g. in GDM session):`, e);
         }
 
         if (this._settings) {
@@ -1702,7 +1714,7 @@ export default class AdwitaSquareExtension extends Extension {
 
                 Main.panel.set_style(`background-color: ${panelConfig.panelBgColor}; box-shadow: ${panelConfig.panelShadow};`);
             } catch (e) {
-                console.warn(`[${this.uuid}] Failed to set Main.panel style:`, e);
+                _warn(`[${this.uuid}] Failed to set Main.panel style:`, e);
             }
         }
 
@@ -1776,14 +1788,14 @@ export default class AdwitaSquareExtension extends Extension {
                 try {
                     theme.unload_stylesheet(this._shellStylesheetFile);
                 } catch (e) {
-                    console.warn(`[${this.uuid}] Failed to unload previous shell stylesheet:`, e);
+                    _warn(`[${this.uuid}] Failed to unload previous shell stylesheet:`, e);
                 }
             }
             this._shellStylesheetFile = newFile;
             theme.load_stylesheet(this._shellStylesheetFile);
-            console.log(`[${this.uuid}] Loaded dynamic shell stylesheet for the top panel`);
+            _log(`[${this.uuid}] Loaded dynamic shell stylesheet for the top panel`);
         } catch (e) {
-            console.error(`[${this.uuid}] Failed to load shell stylesheet:`, e);
+            _error(`[${this.uuid}] Failed to load shell stylesheet:`, e);
         }
     }
 
@@ -1793,9 +1805,9 @@ export default class AdwitaSquareExtension extends Extension {
                 const themeContext = St.ThemeContext.get_for_stage(global.stage);
                 const theme = themeContext.get_theme();
                 theme.unload_stylesheet(this._shellStylesheetFile);
-                console.log(`[${this.uuid}] Restored Adwaita style – unloaded shell stylesheet`);
+                _log(`[${this.uuid}] Restored Adwaita style – unloaded shell stylesheet`);
             } catch (e) {
-                console.warn(`[${this.uuid}] Failed to unload shell stylesheet:`, e);
+                _warn(`[${this.uuid}] Failed to unload shell stylesheet:`, e);
             }
             this._shellStylesheetFile = null;
         }
@@ -1810,7 +1822,7 @@ export default class AdwitaSquareExtension extends Extension {
                 const oldEffect = Main.panel.get_effect('adwita-square-panel-blur');
                 if (oldEffect) Main.panel.remove_effect(oldEffect);
             } catch (e) {
-                console.warn(`[${this.uuid}] Failed to reset panel style:`, e);
+                _warn(`[${this.uuid}] Failed to reset panel style:`, e);
             }
         }
     }
@@ -1824,7 +1836,7 @@ export default class AdwitaSquareExtension extends Extension {
             try {
                 Main.overview.dash._background.set_style(dockStyle);
             } catch (e) {
-                console.warn(`[${this.uuid}] Failed to set dash._background style:`, e);
+                _warn(`[${this.uuid}] Failed to set dash._background style:`, e);
             }
         }
 
@@ -1985,9 +1997,9 @@ export default class AdwitaSquareExtension extends Extension {
         // I restore original Adwaita style by removing generated CSS from ~/.config/gtk-4.0/
         try {
             ThemeGenerator.removeAdwitaSquareCss();
-            console.log(`[${this.uuid}] Restored Adwaita style – removed adwita-square CSS from ~/.config/gtk-4.0/`);
+            _log(`[${this.uuid}] Restored Adwaita style – removed adwita-square CSS from ~/.config/gtk-4.0/`);
         } catch (e) {
-            console.error(`[${this.uuid}] Failed to remove CSS styles:`, e);
+            _error(`[${this.uuid}] Failed to remove CSS styles:`, e);
         }
     }
 
