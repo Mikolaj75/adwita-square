@@ -68,10 +68,10 @@ This project is licensed under the GNU Lesser General Public License version 2.1
 
 ---
 
-## ☕ Support / Wsparcie
+## ☕ Support
 
 If you find this project useful and would like to support its development:
 
 <a href="https://buycoffee.to/e.mikolaj" target="_blank">
-  <img src="https://buycoffee.to/btn/buycoffeeto-btn-primary.svg" alt="Buy me a coffee on buycoffee.to" height="42" />
+  <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy a coffee on buycoffee.to" height="42" />
 </a>
