@@ -163,6 +163,7 @@ export function findIconFile(iconName) {
     }
 
     const searchDirs = [
+        GLib.build_filenamev([GLib.get_home_dir(), '.local', 'share', 'icons', 'hicolor']),
         GLib.build_filenamev([GLib.get_home_dir(), '.local', 'share', 'icons']),
         GLib.build_filenamev([GLib.get_home_dir(), '.icons']),
         '/usr/share/icons/hicolor',
@@ -1183,7 +1184,9 @@ Type=Fixed
 
     try {
         const xdgParent = GLib.build_filenamev([GLib.get_home_dir(), '.local', 'share', 'icons']);
-        Gio.File.new_for_path(xdgParent).make_directory_with_parents(null);
+        try {
+            Gio.File.new_for_path(xdgParent).make_directory_with_parents(null);
+        } catch (_) {}
         if (!GLib.file_test(xdgDir, GLib.FileTest.EXISTS)) {
             const targetFile = Gio.File.new_for_path(xdgDir);
             targetFile.make_symbolic_link(themeDir, null);
@@ -1208,7 +1211,9 @@ Type=Fixed
             if (app.rawIcon && app.rawIcon.startsWith('/') && app.desktopPath) {
                 try {
                     const localAppsDir = GLib.build_filenamev([GLib.get_home_dir(), '.local', 'share', 'applications']);
-                    Gio.File.new_for_path(localAppsDir).make_directory_with_parents(null);
+                    try {
+                        Gio.File.new_for_path(localAppsDir).make_directory_with_parents(null);
+                    } catch (_) {}
                     const desktopBasename = GLib.path_get_basename(app.desktopPath);
                     const localDesktopPath = GLib.build_filenamev([localAppsDir, desktopBasename]);
 
